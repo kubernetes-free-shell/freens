@@ -11,6 +11,7 @@ export DEFAULT_KUBECONFIG_PATH="$HOME/.kube/config"
 export MAIN_FREENS_FOLDER="/tmp/freens"
 export SHELL_PID="$PPID"
 export FREENS_CONTEXT_PATH="${MAIN_FREENS_FOLDER}/${SHELL_PID}"
+export NUMBER_OF_ARGS="$#"
 
 
 ### INFO MESSAGE ###
@@ -65,10 +66,23 @@ cleanup_freens_configs() {
 
 }
 
+usage() {
+    cat <<EOF
+        
+        USAGE: 
+            $ source freens
+
+        DESCRIPTION: Will be filled
+      
+EOF
+    exit 1
+}
+
 #######################################
 # ~MARK: Main function
 #######################################
 main(){
+    [[ "$NUMBER_OF_ARGS" -ge 1 ]] && usage && exit 0
     KUBECONFIG_PATH=$(get_kubeconfig_path)
     create_freens_context_folder
     create_freens_config_file "$KUBECONFIG_PATH"
@@ -76,4 +90,5 @@ main(){
     cleanup_freens_configs
 }
 
-[[ "$0" == "$BASH_SOURCE" ]] && main "$@"
+# [[ "$0" == "$BASH_SOURCE" ]] && main "$@"
+main
