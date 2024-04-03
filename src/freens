@@ -29,12 +29,7 @@ _fail() {
 # 
 # Globals:
     # 
-    # 
-    # 
-    # 
-    # 
-    # 
-    # 
+
 # Arguments:
 #   None
 #######################################
@@ -53,12 +48,6 @@ get_kubeconfig_path() {
 # 
 # Globals:
     # 
-    # 
-    # 
-    # 
-    # 
-    # 
-    # 
 # Arguments:
 #   None
 #######################################
@@ -69,12 +58,6 @@ create_freens_context_folder() {
 #######################################
 # 
 # Globals:
-    # 
-    # 
-    # 
-    # 
-    # 
-    # 
     # 
 # Arguments:
 #   None
@@ -88,12 +71,6 @@ create_freens_config_file() {
 # 
 # Globals:
     # 
-    # 
-    # 
-    # 
-    # 
-    # 
-    # 
 # Arguments:
 #   None
 #######################################
@@ -106,12 +83,6 @@ set_freens_config() {
 #######################################
 # 
 # Globals:
-    # 
-    # 
-    # 
-    # 
-    # 
-    # 
     # 
 # Arguments:
 #   None
