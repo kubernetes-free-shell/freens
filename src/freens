@@ -63,8 +63,8 @@ create_freens_context_folder() {
 #   None
 #######################################
 create_freens_config_file() {
-     _CURRENT_CONFIG_FILE=$1
-    cp "${_CURRENT_CONFIG_FILE}" "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
+     local CURRENT_CONFIG_FILE=$1
+    cp "${CURRENT_CONFIG_FILE}" "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
 }
 
 #######################################
