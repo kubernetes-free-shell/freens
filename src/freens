@@ -16,12 +16,12 @@ export NUMBER_OF_ARGS="$#"
 
 ### INFO MESSAGE ###
 _info() {
-    echo "$@"
+    printf "$*"
 }
 
 ### FAIL MESSAGE ###
 _fail() {
-    echo -e "\nERROR: $@\n"
+    printf "\nERROR: $*\n"
     exit 1
 }
 
@@ -80,8 +80,8 @@ create_freens_context_folder() {
 #   None
 #######################################
 create_freens_config_file() {
-    local CURRENT_CONFIG_FILE=$1
-    cp $CURRENT_CONFIG_FILE "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
+     _CURRENT_CONFIG_FILE=$1
+    cp "${_CURRENT_CONFIG_FILE}" "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
 }
 
 #######################################
@@ -151,7 +151,7 @@ EOF
 # ~MARK: Main function
 #######################################
 main(){
-    [[ "$NUMBER_OF_ARGS" -ge 1 ]] && usage && exit 0
+    [ "$NUMBER_OF_ARGS" -ge 1 ] && usage && exit 0
     KUBECONFIG_PATH=$(get_kubeconfig_path)
     create_freens_context_folder
     create_freens_config_file "$KUBECONFIG_PATH"
