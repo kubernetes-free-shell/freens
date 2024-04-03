@@ -25,6 +25,19 @@ _fail() {
     exit 1
 }
 
+#######################################
+# 
+# Globals:
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+# Arguments:
+#   None
+#######################################
 get_kubeconfig_path() {
     if [[ -n "${KUBECONFIG}" ]]; then
         _info "${KUBECONFIG}"
@@ -36,20 +49,73 @@ get_kubeconfig_path() {
     
 }
 
+#######################################
+# 
+# Globals:
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+# Arguments:
+#   None
+#######################################
 create_freens_context_folder() {
     mkdir -pv "$FREENS_CONTEXT_PATH" > /dev/null 2>&1
 }
 
+#######################################
+# 
+# Globals:
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+# Arguments:
+#   None
+#######################################
 create_freens_config_file() {
     local CURRENT_CONFIG_FILE=$1
     cp $CURRENT_CONFIG_FILE "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
 }
 
+#######################################
+# 
+# Globals:
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+# Arguments:
+#   None
+#######################################
 set_freens_config() {
     export KUBECONFIG="${FREENS_CONTEXT_PATH}/config"
     _info "This shell is free now..."
 }
 
+
+#######################################
+# 
+# Globals:
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+# Arguments:
+#   None
+#######################################
 cleanup_freens_configs() {
 
     for dir in $(find "$MAIN_FREENS_FOLDER" -mindepth 1 -type d); do
@@ -66,6 +132,9 @@ cleanup_freens_configs() {
 
 }
 
+#######################################
+# ~MARK: Usage of script
+#######################################
 usage() {
     cat <<EOF
         
