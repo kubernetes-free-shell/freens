@@ -1,0 +1,97 @@
+#!/bin/sh
+
+########################################################################################
+# DESCRIPTON : freens is a handy tool you use in your shell. It helps keep your 
+# command prompt independent and flexible. When you type `freens` in a command prompt, 
+# it sets up its own special settings for managing things like kubectl commands. 
+# What's neat is that changes made in other command prompts won't mess with the settings 
+# of the one where you ran `freens`. It stays separate and does its own thing.
+#
+# MAINTAINER : 
+# - @ardasendur
+# - @bilgehannal
+#
+# DATE       : 04/04/2024
+########################################################################################
+
+export DEFAULT_KUBECONFIG_PATH="$HOME/.kube/config"
+export MAIN_FREENS_FOLDER="/tmp/freens"
+export SHELL_PID="$PPID"
+export FREENS_CONTEXT_PATH="${MAIN_FREENS_FOLDER}/${SHELL_PID}"
+export NUMBER_OF_ARGS="$#"
+
+
+### INFO MESSAGE ###
+_info() {
+    echo "$@"
+}
+
+### FAIL MESSAGE ###
+_fail() {
+    echo -e "\nERROR: $@\n"
+    exit 1
+}
+
+get_kubeconfig_path() {
+    if [[ -n "${KUBECONFIG}" ]]; then
+        _info "${KUBECONFIG}"
+    elif [[ -f "${DEFAULT_KUBECONFIG_PATH}" ]]; then
+        _info "${DEFAULT_KUBECONFIG_PATH}"
+    else
+        _fail "There is no avaliable kube config file!"
+    fi
+    
+}
+
+create_freens_context_folder() {
+    mkdir -pv "$FREENS_CONTEXT_PATH" > /dev/null 2>&1
+}
+
+create_freens_config_file() {
+    local CURRENT_CONFIG_FILE=$1
+    cp $CURRENT_CONFIG_FILE "${FREENS_CONTEXT_PATH}/config" > /dev/null 2>&1 || :
+}
+
+set_freens_config() {
+    export KUBECONFIG="${FREENS_CONTEXT_PATH}/config"
+    _info "This shell is free now..."
+}
+
+cleanup_freens_configs() {
+
+    for dir in $(find "$MAIN_FREENS_FOLDER" -mindepth 1 -type d); do
+        # Extract the PID from the directory name
+        pid=$(basename "$dir")
+        
+        # Check if the PID corresponds to an active process
+        if ps -p "$pid" > /dev/null; then
+            :
+        else
+            rm -rf "${MAIN_FREENS_FOLDER}/${pid}"
+        fi
+    done
+
+}
+
+usage() {
+    cat <<EOF
+        USAGE: 
+            $ source freens
+      
+EOF
+    exit 1
+}
+
+#######################################
+# ~MARK: Main function
+#######################################
+main(){
+    [[ "$NUMBER_OF_ARGS" -ge 1 ]] && usage && exit 0
+    KUBECONFIG_PATH=$(get_kubeconfig_path)
+    create_freens_context_folder
+    create_freens_config_file "$KUBECONFIG_PATH"
+    set_freens_config
+    cleanup_freens_configs
+}
+
+main
